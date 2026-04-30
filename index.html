@@ -112,6 +112,7 @@
     <div class="stat-box"><div class="val" id="st-best">—</div><div class="lbl">Best score</div></div>
     <div class="stat-box"><div class="val" id="st-avg">—</div><div class="lbl">Average</div></div>
   </div>
+  <div style="text-align:center;margin:-16px 0 24px"><button onclick="resetStats()" style="background:none;border:none;color:var(--muted);font-size:.78rem;cursor:pointer;text-decoration:underline;padding:4px 8px">Reset stats</button></div>
   <div class="mode-grid">
     <button class="mode-btn" onclick="startTest('full')">
       <span class="icon">📋</span><span class="name">Full Mock Test</span>
@@ -361,6 +362,7 @@ function showResults(){
 }
 
 function goHome(){show('home');updateHome();}
+function resetStats(){if(!confirm('Clear all stats and missed-question history?'))return;stats={tests:0,scores:[],best:null};missedMap={};saveState();updateHome();}
 
 function show(id){
   ['home','quiz','results'].forEach(x=>{document.getElementById(x).style.display='none';});
