@@ -203,7 +203,18 @@ function saveState(){
 
 
 
-function qi(q){return BANK.indexOf(q);}
+function qi(q){return BANK.indexOf(q._base||q);}
+
+function pickVariant(base){
+  if(!base.variants||!base.variants.length) return {q:base.q,o:base.o,a:base.a};
+  const all=[{q:base.q,o:base.o,a:base.a},...base.variants];
+  return all[Math.floor(Math.random()*all.length)];
+}
+
+function instantiate(base){
+  const v=pickVariant(base);
+  return {cat:base.cat,exp:base.exp,q:v.q,o:v.o,a:v.a,_base:base};
+}
 
 // ─── CHIPS ──────────────────────────────────────────────────
 let selectedCats=['all'];
@@ -247,7 +258,7 @@ function startTest(mode){
     if(!mq.length){alert('No missed questions yet — take a test first!');return;}
     pool=shuffle(mq);
   }
-  questions=pool; current=0; score=0; answered=[]; streak=0; bestStreak=0;
+  questions=pool.map(instantiate); current=0; score=0; answered=[]; streak=0; bestStreak=0;
   show('quiz'); renderQ();
 }
 
